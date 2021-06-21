@@ -1,0 +1,20 @@
+name "various scenarios for the site"
+
+# override with --endpoint option
+endpoint "https://localhost:8000"
+
+scenario
+    name "Basic visit"
+
+    visit url("/")
+        name "homepage"
+        expect status_code() == 200
+        expect css("tbody.js-sightings-list tr").count() > 10
+        # won't work
+        assert metrics.sql.queries.count < 30
+
+
+
+    click link("Log In")
+        name "login page"
+        expect status_code() == 200
